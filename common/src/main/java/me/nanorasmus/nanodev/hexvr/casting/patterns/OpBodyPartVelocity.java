@@ -11,18 +11,20 @@ import at.petrak.hexcasting.api.casting.iota.NullIota;
 import at.petrak.hexcasting.api.casting.iota.Vec3Iota;
 import me.nanorasmus.nanodev.hexvr.casting.ServerCasting;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
+import org.vivecraft.common.network.BodyPart;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class OpHandVelocity implements ConstMediaAction {
-    int hand;
+public class OpBodyPartVelocity implements ConstMediaAction {
+    BodyPart bodyPart;
 
-    public OpHandVelocity(int hand) {
-        this.hand = hand;
+    public OpBodyPartVelocity(BodyPart bodyPart) {
+        this.bodyPart = bodyPart;
     }
 
     @Override
@@ -45,7 +47,7 @@ public class OpHandVelocity implements ConstMediaAction {
 
         // Get the previous hand positions
         ArrayList<Vec3d> previousHandPositions;
-        if (hand == 0) {
+        if (bodyPart == BodyPart.MAIN_HAND) {
             previousHandPositions = ServerCasting.remotePlayerHandVelocities.get(uuid).getRight();
         } else {
             previousHandPositions = ServerCasting.remotePlayerHandVelocities.get(uuid).getLeft();

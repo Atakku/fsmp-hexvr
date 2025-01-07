@@ -4,7 +4,6 @@ package me.nanorasmus.nanodev.hexvr.casting;
 import at.petrak.hexcasting.api.casting.eval.ExecutionClientView;
 import at.petrak.hexcasting.api.casting.eval.ResolvedPattern;
 import at.petrak.hexcasting.api.casting.eval.ResolvedPatternType;
-import at.petrak.hexcasting.api.casting.iota.Iota;
 import at.petrak.hexcasting.api.casting.iota.IotaType;
 import at.petrak.hexcasting.api.casting.math.HexCoord;
 import at.petrak.hexcasting.api.casting.math.HexDir;
@@ -21,9 +20,7 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.ClickEvent;
 import net.minecraft.text.OrderedText;
-import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
@@ -248,7 +245,7 @@ public class Casting {
             MinecraftClient client = MinecraftClient.getInstance();
 
             // Return if client is null or if player is not in vr
-            if (client.player == null || !VRState.vrRunning || DATA_HOLDER.vrPlayer == null || DATA_HOLDER.vrPlayer.vrdata_world_render == null)
+            if (client.player == null || !VRState.VR_RUNNING || DATA_HOLDER.vrPlayer == null || DATA_HOLDER.vrPlayer.vrdata_world_render == null)
                 return;
 
             TextRenderer textRenderer = client.textRenderer;
@@ -269,7 +266,7 @@ public class Casting {
 
     public void tick(@NotNull MinecraftClient client, boolean isPressed) {
         // Return if client is null or if player is not in vr
-        if (client.player == null || !VRState.vrRunning || DATA_HOLDER.vrPlayer == null || DATA_HOLDER.vrPlayer.vrdata_world_render == null)
+        if (client.player == null || !VRState.VR_RUNNING || DATA_HOLDER.vrPlayer == null || DATA_HOLDER.vrPlayer.vrdata_world_render == null)
             return;
 
 
@@ -358,7 +355,7 @@ public class Casting {
             rightNormal = normal.crossProduct(upNormal).normalize();
 
         } else {
-            reverseNormal = DATA_HOLDER.vrPlayer.vrdata_world_render.getController(controllerIndex).getDirection();
+            reverseNormal = new Vec3d(DATA_HOLDER.vrPlayer.vrdata_world_render.getController(controllerIndex).getDirection());
             normal = reverseNormal.negate();
             rightNormal = normal.crossProduct(new Vec3d(0, 1, 0)).normalize();
             upNormal = normal.crossProduct(rightNormal).normalize();

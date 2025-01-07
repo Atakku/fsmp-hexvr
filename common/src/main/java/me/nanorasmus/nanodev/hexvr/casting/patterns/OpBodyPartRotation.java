@@ -11,19 +11,18 @@ import at.petrak.hexcasting.api.casting.iota.NullIota;
 import at.petrak.hexcasting.api.casting.iota.Vec3Iota;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.jetbrains.annotations.NotNull;
+import org.vivecraft.common.network.BodyPart;
 import org.vivecraft.server.ServerVRPlayers;
 import org.vivecraft.server.ServerVivePlayer;
 
 import java.util.List;
 
-public class OpHandPosition implements ConstMediaAction {
+public class OpBodyPartRotation implements ConstMediaAction {
+    BodyPart bodyPart;
 
-    int hand;
-
-    public OpHandPosition(int hand) {
-        this.hand = hand;
+    public OpBodyPartRotation(BodyPart bodyPart) {
+        this.bodyPart = bodyPart;
     }
-
 
     @Override
     public int getArgc() { return 1; }
@@ -45,12 +44,13 @@ public class OpHandPosition implements ConstMediaAction {
 
         // VR logic
         ServerVivePlayer pVR = ServerVRPlayers.getVivePlayer(p);
-        return List.of(new Vec3Iota(pVR.getControllerPos(hand, p)));
+        return List.of(new Vec3Iota(pVR.getBodyPartDir(bodyPart)));
     }
+
 
     @NotNull
     @Override
-    public CostMediaActionResult executeWithOpCount(@NotNull List<? extends Iota> list, @NotNull CastingEnvironment castingEnvironment) {
+    public ConstMediaAction.CostMediaActionResult executeWithOpCount(@NotNull List<? extends Iota> list, @NotNull CastingEnvironment castingEnvironment) {
         return DefaultImpls.executeWithOpCount(this, list, castingEnvironment);
     }
 
